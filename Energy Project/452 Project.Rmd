@@ -1,0 +1,197 @@
+---
+title: "452 Project"
+author: "Xinyue Jin"
+date: "11/25/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+##Library's read in
+
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(lubridate)
+library(ggmap)
+```
+
+
+```{r, echo=FALSE}
+## load data
+allStatedata <- read.csv('state_data.csv')
+alldata <- read.csv('overall_data.csv')
+```
+
+```{r fig.width =10, fig.height = 12, dpi = 96}
+# Total Energy Consumption in Different states Through 2010-2014
+allStatedata %>%
+  ggplot(aes(x = fct_reorder(State, TotalC), y = TotalC, fill = Year)) + geom_bar(stat = "identity", show.legend = FALSE) + 
+  facet_wrap(~Year,scales = 'free_y') +
+  scale_y_continuous(expand = c(0,0)) + coord_flip() + 
+  theme_bw() + theme(legend.position = "none") +
+  theme(axis.text=element_text(size=5,face="bold")) +
+  labs(title = 'Total Energy Consumption in Different states',
+       subtitle = '2010-2014',
+       x = 'State',
+       y = 'Total Energy Consumption (in billion BTU)')
+```
+
+
+```{r fig.width =10, fig.height = 12, dpi = 96}
+# Total Energy Production in Different states Through 2010-2014
+allStatedata %>%
+  ggplot(aes(x = fct_reorder(State, TotalP), y = TotalP, fill = Year)) + geom_bar(stat = "identity", show.legend = FALSE) + 
+  facet_wrap(~Year,scales = 'free_y') +
+  scale_y_continuous(expand = c(0,0)) + coord_flip() + 
+  theme_bw() + theme(legend.position = "none") +
+  theme(axis.text=element_text(size=5,face="bold")) +
+  labs(title = 'Total Energy Production in Different states',
+       subtitle = '2010-2014',
+       x = 'State',
+       y = 'Total Energy Production (in billion BTU)')
+```
+
+
+```{r fig.width =10, fig.height = 12, dpi = 96}
+# Total Energy Expenditures in Different states Through 2010-2014
+allStatedata %>%
+  ggplot(aes(x = fct_reorder(State, TotalE), y = TotalE, fill = Year)) + geom_bar(stat = "identity", show.legend = FALSE) + 
+  facet_wrap(~Year,scales = 'free_y') +
+  scale_y_continuous(expand = c(0,0)) + coord_flip() + 
+  theme_bw() + theme(legend.position = "none") +
+  theme(axis.text=element_text(size=5,face="bold")) +
+  labs(title = 'Total Energy Expenditures in Different states',
+       subtitle = '2010-2014',
+       x = 'State',
+       y = 'Total Energy Expenditures (in million USD)')
+```
+
+
+```{r fig.width =10, fig.height = 12, dpi = 96}
+# Total Average Energy Price in Different states Through 2010-2014
+allStatedata %>%
+  ggplot(aes(x = fct_reorder(State, TotalPrice), y = TotalPrice, fill = Year)) + geom_bar(stat = "identity", show.legend = FALSE) + 
+  facet_wrap(~Year,scales = 'free_y') +
+  scale_y_continuous(expand = c(0,0)) + coord_flip() + 
+  theme_bw() + theme(legend.position = "none") +
+  theme(axis.text=element_text(size=5,face="bold")) +
+  labs(title = 'Total Average Energy Price in Different states',
+       subtitle = '2010-2014',
+       x = 'State',
+       y = 'Total Average Energy Price (in USD/million BTU)')
+```
+
+
+```{r}
+# Top 10 Energy Consumption Staes
+Top10_EC_Staes_2010 <- allStatedata %>%
+  filter(Year == 2010) %>%
+  select(State,TotalC) %>%
+  arrange(desc(TotalC)) %>%
+  slice(1:10) %>%
+  rename(State2010 = State, TotolC2010 = TotalC)
+
+Top10_EC_Staes_2011 <- allStatedata %>%
+  filter(Year == 2011) %>%
+  select(State,TotalC) %>%
+  arrange(desc(TotalC)) %>%
+  slice(1:10) %>%
+  rename(State2011 = State, TotolC2011 = TotalC)
+
+Top10_EC_Staes_2012 <- allStatedata %>%
+  filter(Year == 2012) %>%
+  select(State,TotalC) %>%
+  arrange(desc(TotalC)) %>%
+  slice(1:10) %>%
+  rename(State2012 = State, TotolC2012 = TotalC)
+
+Top10_EC_Staes_2013 <- allStatedata %>%
+  filter(Year == 2013) %>%
+  select(State,TotalC) %>%
+  arrange(desc(TotalC)) %>%
+  slice(1:10) %>%
+  rename(State2013 = State, TotolC2013 = TotalC)
+
+Top10_EC_Staes_2014 <- allStatedata %>%
+  filter(Year == 2014) %>%
+  select(State,TotalC) %>%
+  arrange(desc(TotalC)) %>%
+  slice(1:10) %>%
+  rename(State2014 = State, TotolC2014 = TotalC)
+
+Top10_EC_Staes <- cbind(Top10_EC_Staes_2010,Top10_EC_Staes_2011,Top10_EC_Staes_2012,Top10_EC_Staes_2013,Top10_EC_Staes_2014)
+```
+
+> No ranking changes in Top 5 States Through 5 years.
+
+
+```{r fig.width =10, fig.height = 12, dpi = 96}
+# Total Average Energy Price in Different states Through 2010-2014
+allStatedata %>%
+  ggplot(aes(x = Year, y = TotalC, color = State, group = 1)) + geom_line(show.legend = FALSE) + 
+  facet_wrap(~State,scales = 'free_y') +
+  theme_bw() + theme(legend.position = "none") +
+  theme(axis.text=element_text(size=5,face="bold")) +
+  labs(title = 'Changes in Total Energy Consumption in Different states',
+       subtitle = 'Between Years',
+       x = 'Year',
+       y = 'Changes in Total Energy')
+```
+
+
+```{r fig.width =10, fig.height = 12, dpi = 96}
+# Example: Hawaii
+allStatedata %>%
+  filter(State == 'Hawaii') %>%
+  ggplot(aes(x = Year, y = TotalP, color = Year, group = 1)) + 
+  geom_point(size = 2) + geom_line(show.legend = FALSE) + 
+  theme_bw() + theme(legend.position = "none") +
+  theme(axis.text=element_text(size=5,face="bold")) +
+  labs(title = 'Total Energy Production in Hawaii',
+       subtitle = 'Between Years',
+       x = 'Year',
+       y = 'Total Energy Production')
+```
+
+```{r fig.width =10, fig.height = 12, dpi = 96}
+# Example: Hawaii
+allStatedata %>%
+  filter(State == 'Hawaii') %>%
+  ggplot(aes(x = Year, y = TotalPrice, color = Year, group = 1)) + 
+  geom_point(size = 2) + geom_line(show.legend = FALSE) + 
+  theme_bw() + theme(legend.position = "none") +
+  theme(axis.text=element_text(size=5,face="bold")) +
+  labs(title = 'Total Average Energy Price in Hawaii',
+       subtitle = 'Between Years',
+       x = 'Year',
+       y = 'Total Average Energy Price')
+```
+
+```{r fig.width =10, fig.height = 12, dpi = 96}
+# Example: Hawaii
+allStatedata %>%
+  filter(State == 'Hawaii') %>%
+  ggplot(aes(x = Year, y = TotalC, color = Year, group = 1)) + 
+  geom_point(size = 2) + geom_line(show.legend = FALSE) + 
+  theme_bw() + theme(legend.position = "none") +
+  theme(axis.text=element_text(size=5,face="bold")) +
+  labs(title = 'Total Energy Consumption in Hawaii',
+       subtitle = 'Between Years',
+       x = 'Year',
+       y = 'Total Energy Consumption')
+```
+
+> For example, as the energy production starts to increase in Hawaii, total average energy price tend to decrease. The reason may be that as the production increases, it does not need to import energy from other states which can decrease the price used to be.
+
+> Do the regression model to predict consumption on productions/price/so on.
+(to ignore the states, we can just use the overall US energy data.)
+
+```{r}
+lm.consumption <- lm(TotalC~TotalP*State+TotalE*State+TotalPrice*State+State, allStatedata)
+
+summary(lm.consumption)
+```

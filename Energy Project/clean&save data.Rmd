@@ -1,0 +1,2802 @@
+---
+title: "Clean&Save Data"
+author: "Xinyue Jin"
+date: "11/26/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, include=FALSE}
+##Library's read in
+
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(lubridate)
+library(ggmap)
+```
+
+
+```{r, echo=FALSE}
+## load data
+dataset <- read.csv('Energy Census and Economic Data US 2010-2014.csv')
+```
+
+```{r, echo=FALSE}
+## transform totalC data
+data <- dataset[0:51,]
+overall <- dataset[52,]
+
+totalC2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(TotalC = TotalC2010)
+
+totalC2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalC = TotalC2011)
+
+totalC2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalC = TotalC2012)
+
+totalC2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalC = TotalC2013)
+
+totalC2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalC = TotalC2014)
+```
+
+```{r, echo=FALSE}
+## combine totalC data
+totalC <- totalC2010 %>%
+  full_join(totalC2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalC", "Year"))
+
+totalC <- totalC %>%
+  full_join(totalC2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalC", "Year"))
+
+totalC <- totalC %>%
+  full_join(totalC2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalC", "Year"))
+
+totalC <- totalC %>%
+  full_join(totalC2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform totalP data
+totalP2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalP2010) %>%
+  mutate(Year = 2010) %>%
+  rename(TotalP = TotalP2010)
+
+totalP2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalP2011) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalP = TotalP2011)
+
+totalP2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalP2012) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalP = TotalP2012)
+
+totalP2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalP2013) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalP = TotalP2013)
+
+totalP2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalP2014) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalP = TotalP2014)
+```
+
+```{r, echo=FALSE}
+## combine totalP data
+totalP <- totalP2010 %>%
+  full_join(totalP2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalP", "Year"))
+
+totalP <- totalP %>%
+  full_join(totalP2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalP", "Year"))
+
+totalP <- totalP %>%
+  full_join(totalP2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalP", "Year"))
+
+totalP <- totalP %>%
+  full_join(totalP2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalP", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform totalE data
+totalE2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalE2010) %>%
+  mutate(Year = 2010) %>%
+  rename(TotalE = TotalE2010)
+
+totalE2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalE2011) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalE = TotalE2011)
+
+totalE2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalE2012) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalE = TotalE2012)
+
+totalE2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalE2013) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalE = TotalE2013)
+
+totalE2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalE2014) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalE = TotalE2014)
+```
+
+```{r, echo=FALSE}
+## combine totalE data
+totalE <- totalE2010 %>%
+  full_join(totalE2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalE", "Year"))
+
+totalE <- totalE %>%
+  full_join(totalE2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalE", "Year"))
+
+totalE <- totalE %>%
+  full_join(totalE2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalE", "Year"))
+
+totalE <- totalE %>%
+  full_join(totalE2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalE", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform totalPrice data
+totalPrice2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalPrice2010) %>%
+  mutate(Year = 2010) %>%
+  rename(TotalPrice = TotalPrice2010)
+
+totalPrice2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalPrice2011) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalPrice = TotalPrice2011)
+
+totalPrice2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalPrice2012) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalPrice = TotalPrice2012)
+
+totalPrice2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalPrice2013) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalPrice = TotalPrice2013)
+
+totalPrice2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalPrice2014) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalPrice = TotalPrice2014)
+```
+
+```{r, echo=FALSE}
+## combine totalPrice data
+totalPrice <- totalPrice2010 %>%
+  full_join(totalPrice2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalPrice", "Year"))
+
+totalPrice <- totalPrice %>%
+  full_join(totalPrice2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalPrice", "Year"))
+
+totalPrice <- totalPrice %>%
+  full_join(totalPrice2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalPrice", "Year"))
+
+totalPrice <- totalPrice %>%
+  full_join(totalPrice2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalPrice", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform changes in TotalC data
+totalC10 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes) %>%
+  mutate(TotalC10 = 0, Year = 2010) %>%
+  rename(TotalC_Changes = TotalC10)
+
+totalC10.11 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalC10.11) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalC_Changes = TotalC10.11)
+
+totalC11.12 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalC11.12) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalC_Changes = TotalC11.12)
+
+totalC12.13 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalC12.13) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalC_Changes = TotalC12.13)
+
+totalC13.14 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalC13.14) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalC_Changes = TotalC13.14)
+```
+
+```{r, echo=FALSE}
+## combine changes in TotalC data
+totalC_Changes <- totalC10 %>%
+  full_join(totalC10.11, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalC_Changes", "Year"))
+
+totalC_Changes <- totalC_Changes %>%
+  full_join(totalC11.12, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalC_Changes", "Year"))
+
+totalC_Changes <- totalC_Changes %>%
+  full_join(totalC12.13, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalC_Changes", "Year"))
+
+totalC_Changes <- totalC_Changes %>%
+  full_join(totalC13.14, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalC_Changes", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform changes in TotalP data
+totalP10 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes) %>%
+  mutate(TotalP10 = 0, Year = 2010) %>%
+  rename(TotalP_Changes = TotalP10)
+
+totalP10.11 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalP10.11) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalP_Changes = TotalP10.11)
+
+totalP11.12 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalP11.12) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalP_Changes = TotalP11.12)
+
+totalP12.13 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalP12.13) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalP_Changes = TotalP12.13)
+
+totalP13.14 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalP13.14) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalP_Changes = TotalP13.14)
+```
+
+```{r, echo=FALSE}
+## combine changes in TotalP data
+totalP_Changes <- totalP10 %>%
+  full_join(totalP10.11, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalP_Changes", "Year"))
+
+totalP_Changes <- totalP_Changes %>%
+  full_join(totalP11.12, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalP_Changes", "Year"))
+
+totalP_Changes <- totalP_Changes %>%
+  full_join(totalP12.13, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalP_Changes", "Year"))
+
+totalP_Changes <- totalP_Changes %>%
+  full_join(totalP13.14, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalP_Changes", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform changes in TotalE data
+totalE10 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes) %>%
+  mutate(TotalE10 = 0, Year = 2010) %>%
+  rename(TotalE_Changes = TotalE10)
+
+totalE10.11 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalE10.11) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalE_Changes = TotalE10.11)
+
+totalE11.12 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalE11.12) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalE_Changes = TotalE11.12)
+
+totalE12.13 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalE12.13) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalE_Changes = TotalE12.13)
+
+totalE13.14 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalE13.14) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalE_Changes = TotalE13.14)
+```
+
+```{r, echo=FALSE}
+## combine changes in TotalE data
+totalE_Changes <- totalE10 %>%
+  full_join(totalE10.11, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalE_Changes", "Year"))
+
+totalE_Changes <- totalE_Changes %>%
+  full_join(totalE11.12, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalE_Changes", "Year"))
+
+totalE_Changes <- totalE_Changes %>%
+  full_join(totalE12.13, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalE_Changes", "Year"))
+
+totalE_Changes <- totalE_Changes %>%
+  full_join(totalE13.14, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalE_Changes", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform changes in TotalPrice data
+totalPrice10 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes) %>%
+  mutate(TotalPrice10 = 0, Year = 2010) %>%
+  rename(TotalPrice_Changes = TotalPrice10)
+
+totalPrice10.11 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalPrice10.11) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalPrice_Changes = TotalPrice10.11)
+
+totalPrice11.12 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalPrice11.12) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalPrice_Changes = TotalPrice11.12)
+
+totalPrice12.13 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalPrice12.13) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalPrice_Changes = TotalPrice12.13)
+
+totalPrice13.14 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, TotalPrice13.14) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalPrice_Changes = TotalPrice13.14)
+```
+
+```{r, echo=FALSE}
+## combine changes in totalPrice data
+totalPrice_Changes <- totalPrice10 %>%
+  full_join(totalPrice10.11, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalPrice_Changes", "Year"))
+
+totalPrice_Changes <- totalPrice_Changes %>%
+  full_join(totalPrice11.12, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalPrice_Changes", "Year"))
+
+totalPrice_Changes <- totalPrice_Changes %>%
+  full_join(totalPrice12.13, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalPrice_Changes", "Year"))
+
+totalPrice_Changes <- totalPrice_Changes %>%
+  full_join(totalPrice13.14, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "TotalPrice_Changes", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform BiomassC data
+BiomassC2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, BiomassC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(BiomassC = BiomassC2010)
+
+BiomassC2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, BiomassC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(BiomassC = BiomassC2011)
+
+BiomassC2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, BiomassC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(BiomassC = BiomassC2012)
+
+BiomassC2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, BiomassC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(BiomassC = BiomassC2013)
+
+BiomassC2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, BiomassC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(BiomassC = BiomassC2014)
+```
+
+```{r, echo=FALSE}
+## combine BiomassC data
+BiomassC <- BiomassC2010 %>%
+  full_join(BiomassC2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "BiomassC", "Year"))
+
+BiomassC <- BiomassC %>%
+  full_join(BiomassC2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "BiomassC", "Year"))
+
+BiomassC <- BiomassC %>%
+  full_join(BiomassC2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "BiomassC", "Year"))
+
+BiomassC <- BiomassC %>%
+  full_join(BiomassC2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "BiomassC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform CoalC data
+CoalC2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(CoalC = CoalC2010)
+
+CoalC2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(CoalC = CoalC2011)
+
+CoalC2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(CoalC = CoalC2012)
+
+CoalC2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(CoalC = CoalC2013)
+
+CoalC2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(CoalC = CoalC2014)
+```
+
+```{r, echo=FALSE}
+## combine CoalC data
+CoalC <- CoalC2010 %>%
+  full_join(CoalC2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalC", "Year"))
+
+CoalC <- CoalC %>%
+  full_join(CoalC2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalC", "Year"))
+
+CoalC <- CoalC %>%
+  full_join(CoalC2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalC", "Year"))
+
+CoalC <- CoalC %>%
+  full_join(CoalC2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform CoalP data
+CoalP2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalP2010) %>%
+  mutate(Year = 2010) %>%
+  rename(CoalP = CoalP2010)
+
+CoalP2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalP2011) %>%
+  mutate(Year = 2011) %>%
+  rename(CoalP = CoalP2011)
+
+CoalP2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalP2012) %>%
+  mutate(Year = 2012) %>%
+  rename(CoalP = CoalP2012)
+
+CoalP2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalP2013) %>%
+  mutate(Year = 2013) %>%
+  rename(CoalP = CoalP2013)
+
+CoalP2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalP2014) %>%
+  mutate(Year = 2014) %>%
+  rename(CoalP = CoalP2014)
+```
+
+```{r, echo=FALSE}
+## combine CoalP data
+CoalP <- CoalP2010 %>%
+  full_join(CoalP2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalP", "Year"))
+
+CoalP <- CoalP %>%
+  full_join(CoalP2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalP", "Year"))
+
+CoalP <- CoalP %>%
+  full_join(CoalP2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalP", "Year"))
+
+CoalP <- CoalP %>%
+  full_join(CoalP2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalP", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform CoalE data
+CoalE2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalE2010) %>%
+  mutate(Year = 2010) %>%
+  rename(CoalE = CoalE2010)
+
+CoalE2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalE2011) %>%
+  mutate(Year = 2011) %>%
+  rename(CoalE = CoalE2011)
+
+CoalE2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalE2012) %>%
+  mutate(Year = 2012) %>%
+  rename(CoalE = CoalE2012)
+
+CoalE2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalE2013) %>%
+  mutate(Year = 2013) %>%
+  rename(CoalE = CoalE2013)
+
+CoalE2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalE2014) %>%
+  mutate(Year = 2014) %>%
+  rename(CoalE = CoalE2014)
+```
+
+```{r, echo=FALSE}
+## combine CoalE data
+CoalE <- CoalE2010 %>%
+  full_join(CoalE2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalE", "Year"))
+
+CoalE <- CoalE %>%
+  full_join(CoalE2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalE", "Year"))
+
+CoalE <- CoalE %>%
+  full_join(CoalE2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalE", "Year"))
+
+CoalE <- CoalE %>%
+  full_join(CoalE2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalE", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform CoalPrice data
+CoalPrice2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalPrice2010) %>%
+  mutate(Year = 2010) %>%
+  rename(CoalPrice = CoalPrice2010)
+
+CoalPrice2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalPrice2011) %>%
+  mutate(Year = 2011) %>%
+  rename(CoalPrice = CoalPrice2011)
+
+CoalPrice2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalPrice2012) %>%
+  mutate(Year = 2012) %>%
+  rename(CoalPrice = CoalPrice2012)
+
+CoalPrice2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalPrice2013) %>%
+  mutate(Year = 2013) %>%
+  rename(CoalPrice = CoalPrice2013)
+
+CoalPrice2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, CoalPrice2014) %>%
+  mutate(Year = 2014) %>%
+  rename(CoalPrice = CoalPrice2014)
+```
+
+```{r, echo=FALSE}
+## combine CoalPrice data
+CoalPrice <- CoalPrice2010 %>%
+  full_join(CoalPrice2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalPrice", "Year"))
+
+CoalPrice <- CoalPrice %>%
+  full_join(CoalPrice2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalPrice", "Year"))
+
+CoalPrice <- CoalPrice %>%
+  full_join(CoalPrice2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalPrice", "Year"))
+
+CoalPrice <- CoalPrice %>%
+  full_join(CoalPrice2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "CoalPrice", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform ElecC data
+ElecC2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(ElecC = ElecC2010)
+
+ElecC2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(ElecC = ElecC2011)
+
+ElecC2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(ElecC = ElecC2012)
+
+ElecC2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(ElecC = ElecC2013)
+
+ElecC2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(ElecC = ElecC2014)
+```
+
+```{r, echo=FALSE}
+## combine ElecC data
+ElecC <- ElecC2010 %>%
+  full_join(ElecC2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "ElecC", "Year"))
+
+ElecC <- ElecC %>%
+  full_join(ElecC2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "ElecC", "Year"))
+
+ElecC <- ElecC %>%
+  full_join(ElecC2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "ElecC", "Year"))
+
+ElecC <- ElecC %>%
+  full_join(ElecC2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "ElecC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform ElecE data
+ElecE2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecE2010) %>%
+  mutate(Year = 2010) %>%
+  rename(ElecE = ElecE2010)
+
+ElecE2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecE2011) %>%
+  mutate(Year = 2011) %>%
+  rename(ElecE = ElecE2011)
+
+ElecE2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecE2012) %>%
+  mutate(Year = 2012) %>%
+  rename(ElecE = ElecE2012)
+
+ElecE2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecE2013) %>%
+  mutate(Year = 2013) %>%
+  rename(ElecE = ElecE2013)
+
+ElecE2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecE2014) %>%
+  mutate(Year = 2014) %>%
+  rename(ElecE = ElecE2014)
+```
+
+```{r, echo=FALSE}
+## combine ElecE data
+ElecE <- ElecE2010 %>%
+  full_join(ElecE2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "ElecE", "Year"))
+
+ElecE <- ElecE %>%
+  full_join(ElecE2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "ElecE", "Year"))
+
+ElecE <- ElecE %>%
+  full_join(ElecE2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "ElecE", "Year"))
+
+ElecE <- ElecE %>%
+  full_join(ElecE2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "ElecE", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform ElecPrice data
+ElecPrice2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecPrice2010) %>%
+  mutate(Year = 2010) %>%
+  rename(ElecPrice = ElecPrice2010)
+
+ElecPrice2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecPrice2011) %>%
+  mutate(Year = 2011) %>%
+  rename(ElecPrice = ElecPrice2011)
+
+ElecPrice2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecPrice2012) %>%
+  mutate(Year = 2012) %>%
+  rename(ElecPrice = ElecPrice2012)
+
+ElecPrice2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecPrice2013) %>%
+  mutate(Year = 2013) %>%
+  rename(ElecPrice = ElecPrice2013)
+
+ElecPrice2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, ElecPrice2014) %>%
+  mutate(Year = 2014) %>%
+  rename(ElecPrice = ElecPrice2014)
+```
+
+```{r, echo=FALSE}
+## combine ElecPrice data
+ElecPrice <- ElecPrice2010 %>%
+  full_join(ElecPrice2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "ElecPrice", "Year"))
+
+ElecPrice <- ElecPrice %>%
+  full_join(ElecPrice2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "ElecPrice", "Year"))
+
+ElecPrice <- ElecPrice %>%
+  full_join(ElecPrice2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "ElecPrice", "Year"))
+
+ElecPrice <- ElecPrice %>%
+  full_join(ElecPrice2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "ElecPrice", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform FossFuelC data
+FossFuelC2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, FossFuelC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(FossFuelC = FossFuelC2010)
+
+FossFuelC2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, FossFuelC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(FossFuelC = FossFuelC2011)
+
+FossFuelC2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, FossFuelC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(FossFuelC = FossFuelC2012)
+
+FossFuelC2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, FossFuelC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(FossFuelC = FossFuelC2013)
+
+FossFuelC2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, FossFuelC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(FossFuelC = FossFuelC2014)
+```
+
+```{r, echo=FALSE}
+## combine FossFuelC data
+FossFuelC <- FossFuelC2010 %>%
+  full_join(FossFuelC2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "FossFuelC", "Year"))
+
+FossFuelC <- FossFuelC %>%
+  full_join(FossFuelC2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "FossFuelC", "Year"))
+
+FossFuelC <- FossFuelC %>%
+  full_join(FossFuelC2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "FossFuelC", "Year"))
+
+FossFuelC <- FossFuelC %>%
+  full_join(FossFuelC2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "FossFuelC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform GeoC data
+GeoC2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GeoC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(GeoC = GeoC2010)
+
+GeoC2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GeoC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(GeoC = GeoC2011)
+
+GeoC2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GeoC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(GeoC = GeoC2012)
+
+GeoC2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GeoC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(GeoC = GeoC2013)
+
+GeoC2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GeoC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(GeoC = GeoC2014)
+```
+
+```{r, echo=FALSE}
+## combine GeoC data
+GeoC <- GeoC2010 %>%
+  full_join(GeoC2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "GeoC", "Year"))
+
+GeoC <- GeoC %>%
+  full_join(GeoC2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "GeoC", "Year"))
+
+GeoC <- GeoC %>%
+  full_join(GeoC2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "GeoC", "Year"))
+
+GeoC <- GeoC %>%
+  full_join(GeoC2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "GeoC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform GeoP data
+GeoP2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GeoP2010) %>%
+  mutate(Year = 2010) %>%
+  rename(GeoP = GeoP2010)
+
+GeoP2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GeoP2011) %>%
+  mutate(Year = 2011) %>%
+  rename(GeoP = GeoP2011)
+
+GeoP2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GeoP2012) %>%
+  mutate(Year = 2012) %>%
+  rename(GeoP = GeoP2012)
+
+GeoP2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GeoP2013) %>%
+  mutate(Year = 2013) %>%
+  rename(GeoP = GeoP2013)
+
+GeoP2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GeoP2014) %>%
+  mutate(Year = 2014) %>%
+  rename(GeoP = GeoP2014)
+```
+
+```{r, echo=FALSE}
+## combine GeoC data
+GeoP <- GeoP2010 %>%
+  full_join(GeoP2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "GeoP", "Year"))
+
+GeoP <- GeoP %>%
+  full_join(GeoP2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "GeoP", "Year"))
+
+GeoP <- GeoP %>%
+  full_join(GeoP2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "GeoP", "Year"))
+
+GeoP <- GeoP %>%
+  full_join(GeoP2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "GeoP", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform HydroC data
+HydroC2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, HydroC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(HydroC = HydroC2010)
+
+HydroC2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, HydroC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(HydroC = HydroC2011)
+
+HydroC2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, HydroC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(HydroC = HydroC2012)
+
+HydroC2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, HydroC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(HydroC = HydroC2013)
+
+HydroC2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, HydroC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(HydroC = HydroC2014)
+```
+
+```{r, echo=FALSE}
+## combine HydroC data
+HydroC <- HydroC2010 %>%
+  full_join(HydroC2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "HydroC", "Year"))
+
+HydroC <- HydroC %>%
+  full_join(HydroC2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "HydroC", "Year"))
+
+HydroC <- HydroC %>%
+  full_join(HydroC2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "HydroC", "Year"))
+
+HydroC <- HydroC %>%
+  full_join(HydroC2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "HydroC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform HydroP data
+HydroP2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, HydroP2010) %>%
+  mutate(Year = 2010) %>%
+  rename(HydroP = HydroP2010)
+
+HydroP2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, HydroP2011) %>%
+  mutate(Year = 2011) %>%
+  rename(HydroP = HydroP2011)
+
+HydroP2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, HydroP2012) %>%
+  mutate(Year = 2012) %>%
+  rename(HydroP = HydroP2012)
+
+HydroP2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, HydroP2013) %>%
+  mutate(Year = 2013) %>%
+  rename(HydroP = HydroP2013)
+
+HydroP2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, HydroP2014) %>%
+  mutate(Year = 2014) %>%
+  rename(HydroP = HydroP2014)
+```
+
+```{r, echo=FALSE}
+## combine HydroP data
+HydroP <- HydroP2010 %>%
+  full_join(HydroP2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "HydroP", "Year"))
+
+HydroP <- HydroP %>%
+  full_join(HydroP2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "HydroP", "Year"))
+
+HydroP <- HydroP %>%
+  full_join(HydroP2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "HydroP", "Year"))
+
+HydroP <- HydroP %>%
+  full_join(HydroP2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "HydroP", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform NatGasC data
+NatGasC2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(NatGasC = NatGasC2010)
+
+NatGasC2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(NatGasC = NatGasC2011)
+
+NatGasC2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(NatGasC = NatGasC2012)
+
+NatGasC2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(NatGasC = NatGasC2013)
+
+NatGasC2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(NatGasC = NatGasC2014)
+```
+
+```{r, echo=FALSE}
+## combine NatGasC data
+NatGasC <- NatGasC2010 %>%
+  full_join(NatGasC2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "NatGasC", "Year"))
+
+NatGasC <- NatGasC %>%
+  full_join(NatGasC2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "NatGasC", "Year"))
+
+NatGasC <- NatGasC %>%
+  full_join(NatGasC2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "NatGasC", "Year"))
+
+NatGasC <- NatGasC %>%
+  full_join(NatGasC2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "NatGasC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform NatGasE data
+NatGasE2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasE2010) %>%
+  mutate(Year = 2010) %>%
+  rename(NatGasE = NatGasE2010)
+
+NatGasE2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasE2011) %>%
+  mutate(Year = 2011) %>%
+  rename(NatGasE = NatGasE2011)
+
+NatGasE2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasE2012) %>%
+  mutate(Year = 2012) %>%
+  rename(NatGasE = NatGasE2012)
+
+NatGasE2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasE2013) %>%
+  mutate(Year = 2013) %>%
+  rename(NatGasE = NatGasE2013)
+
+NatGasE2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasE2014) %>%
+  mutate(Year = 2014) %>%
+  rename(NatGasE = NatGasE2014)
+```
+
+```{r, echo=FALSE}
+## combine NatGasE data
+NatGasE <- NatGasE2010 %>%
+  full_join(NatGasE2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "NatGasE", "Year"))
+
+NatGasE <- NatGasE %>%
+  full_join(NatGasE2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "NatGasE", "Year"))
+
+NatGasE <- NatGasE %>%
+  full_join(NatGasE2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "NatGasE", "Year"))
+
+NatGasE <- NatGasE %>%
+  full_join(NatGasE2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "NatGasE", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform NatGasPrice data
+NatGasPrice2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasPrice2010) %>%
+  mutate(Year = 2010) %>%
+  rename(NatGasPrice = NatGasPrice2010)
+
+NatGasPrice2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasPrice2011) %>%
+  mutate(Year = 2011) %>%
+  rename(NatGasPrice = NatGasPrice2011)
+
+NatGasPrice2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasPrice2012) %>%
+  mutate(Year = 2012) %>%
+  rename(NatGasPrice = NatGasPrice2012)
+
+NatGasPrice2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasPrice2013) %>%
+  mutate(Year = 2013) %>%
+  rename(NatGasPrice = NatGasPrice2013)
+
+NatGasPrice2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, NatGasPrice2014) %>%
+  mutate(Year = 2014) %>%
+  rename(NatGasPrice = NatGasPrice2014)
+```
+
+```{r, echo=FALSE}
+## combine NatGasPrice data
+NatGasPrice <- NatGasPrice2010 %>%
+  full_join(NatGasPrice2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "NatGasPrice", "Year"))
+
+NatGasPrice <- NatGasPrice %>%
+  full_join(NatGasPrice2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "NatGasPrice", "Year"))
+
+NatGasPrice <- NatGasPrice %>%
+  full_join(NatGasPrice2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "NatGasPrice", "Year"))
+
+NatGasPrice <- NatGasPrice %>%
+  full_join(NatGasPrice2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "NatGasPrice", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform LPGC data
+LPGC2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(LPGC = LPGC2010)
+
+LPGC2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(LPGC = LPGC2011)
+
+LPGC2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(LPGC = LPGC2012)
+
+LPGC2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(LPGC = LPGC2013)
+
+LPGC2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(LPGC = LPGC2014)
+```
+
+```{r, echo=FALSE}
+## combine LPGC data
+LPGC <- LPGC2010 %>%
+  full_join(LPGC2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "LPGC", "Year"))
+
+LPGC <- LPGC %>%
+  full_join(LPGC2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "LPGC", "Year"))
+
+LPGC <- LPGC %>%
+  full_join(LPGC2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "LPGC", "Year"))
+
+LPGC <- LPGC %>%
+  full_join(LPGC2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "LPGC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform LPGE data
+LPGE2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGE2010) %>%
+  mutate(Year = 2010) %>%
+  rename(LPGE = LPGE2010)
+
+LPGE2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGE2011) %>%
+  mutate(Year = 2011) %>%
+  rename(LPGE = LPGE2011)
+
+LPGE2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGE2012) %>%
+  mutate(Year = 2012) %>%
+  rename(LPGE = LPGE2012)
+
+LPGE2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGE2013) %>%
+  mutate(Year = 2013) %>%
+  rename(LPGE = LPGE2013)
+
+LPGE2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGE2014) %>%
+  mutate(Year = 2014) %>%
+  rename(LPGE = LPGE2014)
+```
+
+```{r, echo=FALSE}
+## combine LPGE data
+LPGE <- LPGE2010 %>%
+  full_join(LPGE2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "LPGE", "Year"))
+
+LPGE <- LPGE %>%
+  full_join(LPGE2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "LPGE", "Year"))
+
+LPGE <- LPGE %>%
+  full_join(LPGE2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "LPGE", "Year"))
+
+LPGE <- LPGE %>%
+  full_join(LPGE2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "LPGE", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform LPGPrice data
+LPGPrice2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGPrice2010) %>%
+  mutate(Year = 2010) %>%
+  rename(LPGPrice = LPGPrice2010)
+
+LPGPrice2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGPrice2011) %>%
+  mutate(Year = 2011) %>%
+  rename(LPGPrice = LPGPrice2011)
+
+LPGPrice2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGPrice2012) %>%
+  mutate(Year = 2012) %>%
+  rename(LPGPrice = LPGPrice2012)
+
+LPGPrice2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGPrice2013) %>%
+  mutate(Year = 2013) %>%
+  rename(LPGPrice = LPGPrice2013)
+
+LPGPrice2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, LPGPrice2014) %>%
+  mutate(Year = 2014) %>%
+  rename(LPGPrice = LPGPrice2014)
+```
+
+```{r, echo=FALSE}
+## combine LPGPrice data
+LPGPrice <- LPGPrice2010 %>%
+  full_join(LPGPrice2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "LPGPrice", "Year"))
+
+LPGPrice <- LPGPrice %>%
+  full_join(LPGPrice2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "LPGPrice", "Year"))
+
+LPGPrice <- LPGPrice %>%
+  full_join(LPGPrice2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "LPGPrice", "Year"))
+
+LPGPrice <- LPGPrice %>%
+  full_join(LPGPrice2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "LPGPrice", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform GDP data
+GDP2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GDP2010) %>%
+  mutate(Year = 2010) %>%
+  rename(GDP = GDP2010)
+
+GDP2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GDP2011) %>%
+  mutate(Year = 2011) %>%
+  rename(GDP = GDP2011)
+
+GDP2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GDP2012) %>%
+  mutate(Year = 2012) %>%
+  rename(GDP = GDP2012)
+
+GDP2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GDP2013) %>%
+  mutate(Year = 2013) %>%
+  rename(GDP = GDP2013)
+
+GDP2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, GDP2014) %>%
+  mutate(Year = 2014) %>%
+  rename(GDP = GDP2014)
+```
+
+```{r, echo=FALSE}
+## combine GDP data
+GDP <- GDP2010 %>%
+  full_join(GDP2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "GDP", "Year"))
+
+GDP <- GDP %>%
+  full_join(GDP2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "GDP", "Year"))
+
+GDP <- GDP %>%
+  full_join(GDP2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "GDP", "Year"))
+
+GDP <- GDP %>%
+  full_join(GDP2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "GDP", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform Population data
+Population2010 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, POPESTIMATE2010) %>%
+  mutate(Year = 2010) %>%
+  rename(Population = POPESTIMATE2010)
+
+Population2011 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, POPESTIMATE2011) %>%
+  mutate(Year = 2011) %>%
+  rename(Population = POPESTIMATE2011)
+
+Population2012 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, POPESTIMATE2012) %>%
+  mutate(Year = 2012) %>%
+  rename(Population = POPESTIMATE2012)
+
+Population2013 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, POPESTIMATE2013) %>%
+  mutate(Year = 2013) %>%
+  rename(Population = POPESTIMATE2013)
+
+Population2014 <- data %>%
+  select(StateCodes, State, Region, Division, Coast, Great.Lakes, POPESTIMATE2014) %>%
+  mutate(Year = 2014) %>%
+  rename(Population = POPESTIMATE2014)
+```
+
+```{r, echo=FALSE}
+## combine Population data
+Population <- Population2010 %>%
+  full_join(Population2011, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Population", "Year"))
+
+Population <- Population %>%
+  full_join(Population2012, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Population", "Year"))
+
+Population <- Population %>%
+  full_join(Population2013, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Population", "Year"))
+
+Population <- Population %>%
+  full_join(Population2014, by = c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Population", "Year"))
+```
+
+```{r, echo=FALSE}
+# combine all data by States
+allStatedata <- totalC %>%
+  left_join(totalP, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(totalE, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(totalPrice, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(totalC_Changes, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(totalP_Changes, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(totalE_Changes, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(totalPrice_Changes, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(BiomassC, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(CoalC, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(CoalP, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(CoalE, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(CoalPrice, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(ElecC, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(ElecE, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(ElecPrice, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(FossFuelC, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(GeoC, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(GeoP, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(HydroC, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(HydroP, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(NatGasC, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(NatGasE, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(NatGasPrice, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(LPGC, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(LPGE, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(LPGPrice, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(GDP, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  left_join(Population, c("StateCodes", "State", "Region", "Division", "Coast", "Great.Lakes", "Year")) %>%
+  select(-Year,Year)
+```
+
+```{r}
+write.csv(allStatedata,'state_data.csv')
+```
+
+
+
+```{r, echo=FALSE}
+## transform totalC data
+overallC2010 <- overall %>%
+  select(State, TotalC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(TotalC = TotalC2010)
+
+overallC2011 <- overall %>%
+  select(State, TotalC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalC = TotalC2011)
+
+overallC2012 <- overall %>%
+  select(State, TotalC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalC = TotalC2012)
+
+overallC2013 <- overall %>%
+  select(State, TotalC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalC = TotalC2013)
+
+overallC2014 <- overall %>%
+  select(State, TotalC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalC = TotalC2014)
+```
+
+```{r, echo=FALSE}
+## combine totalC data
+overallC <- overallC2010 %>%
+  full_join(overallC2011, by = c("State", "TotalC", "Year"))
+
+overallC <- overallC %>%
+  full_join(overallC2012, by = c("State", "TotalC", "Year"))
+
+overallC <- overallC %>%
+  full_join(overallC2013, by = c("State", "TotalC", "Year"))
+
+overallC <- overallC %>%
+  full_join(overallC2014, by = c("State", "TotalC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform totalP data
+overallP2010 <- overall %>%
+  select(State, TotalP2010) %>%
+  mutate(Year = 2010) %>%
+  rename(TotalP = TotalP2010)
+
+overallP2011 <- overall %>%
+  select(State, TotalP2011) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalP = TotalP2011)
+
+overallP2012 <- overall %>%
+  select(State, TotalP2012) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalP = TotalP2012)
+
+overallP2013 <- overall %>%
+  select(State, TotalP2013) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalP = TotalP2013)
+
+overallP2014 <- overall %>%
+  select(State, TotalP2014) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalP = TotalP2014)
+```
+
+```{r, echo=FALSE}
+## combine totalP data
+overallP <- overallP2010 %>%
+  full_join(overallP2011, by = c("State", "TotalP", "Year"))
+
+overallP <- overallP %>%
+  full_join(overallP2012, by = c("State", "TotalP", "Year"))
+
+overallP <- overallP %>%
+  full_join(overallP2013, by = c("State", "TotalP", "Year"))
+
+overallP <- overallP %>%
+  full_join(overallP2014, by = c("State", "TotalP", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform totalE data
+overallE2010 <- overall %>%
+  select(State, TotalE2010) %>%
+  mutate(Year = 2010) %>%
+  rename(TotalE = TotalE2010)
+
+overallE2011 <- overall %>%
+  select(State, TotalE2011) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalE = TotalE2011)
+
+overallE2012 <- overall %>%
+  select(State, TotalE2012) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalE = TotalE2012)
+
+overallE2013 <- overall %>%
+  select(State, TotalE2013) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalE = TotalE2013)
+
+overallE2014 <- overall %>%
+  select(State, TotalE2014) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalE = TotalE2014)
+```
+
+```{r, echo=FALSE}
+## combine totalE data
+overallE <- overallE2010 %>%
+  full_join(overallE2011, by = c("State", "TotalE", "Year"))
+
+overallE <- overallE %>%
+  full_join(overallE2012, by = c("State", "TotalE", "Year"))
+
+overallE <- overallE %>%
+  full_join(overallE2013, by = c("State", "TotalE", "Year"))
+
+overallE <- overallE %>%
+  full_join(overallE2014, by = c("State", "TotalE", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform totalPrice data
+overallPrice2010 <- overall %>%
+  select(State, TotalPrice2010) %>%
+  mutate(Year = 2010) %>%
+  rename(TotalPrice = TotalPrice2010)
+
+overallPrice2011 <- overall %>%
+  select(State, TotalPrice2011) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalPrice = TotalPrice2011)
+
+overallPrice2012 <- overall %>%
+  select(State, TotalPrice2012) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalPrice = TotalPrice2012)
+
+overallPrice2013 <- overall %>%
+  select(State, TotalPrice2013) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalPrice = TotalPrice2013)
+
+overallPrice2014 <- overall %>%
+  select(State, TotalPrice2014) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalPrice = TotalPrice2014)
+```
+
+```{r, echo=FALSE}
+## combine totalPrice data
+overallPrice <- overallPrice2010 %>%
+  full_join(overallPrice2011, by = c("State", "TotalPrice", "Year"))
+
+overallPrice <- overallPrice %>%
+  full_join(overallPrice2012, by = c("State", "TotalPrice", "Year"))
+
+overallPrice <- overallPrice %>%
+  full_join(overallPrice2013, by = c("State", "TotalPrice", "Year"))
+
+overallPrice <- overallPrice %>%
+  full_join(overallPrice2014, by = c("State", "TotalPrice", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform changes in TotalC data
+overallC10 <- overall %>%
+  select(State) %>%
+  mutate(TotalC10 = 0, Year = 2010) %>%
+  rename(TotalC_Changes = TotalC10)
+
+overallC10.11 <- overall %>%
+  select(State, TotalC10.11) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalC_Changes = TotalC10.11)
+
+overallC11.12 <- overall %>%
+  select(State, TotalC11.12) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalC_Changes = TotalC11.12)
+
+overallC12.13 <- overall %>%
+  select(State, TotalC12.13) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalC_Changes = TotalC12.13)
+
+overallC13.14 <- overall %>%
+  select(State, TotalC13.14) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalC_Changes = TotalC13.14)
+```
+
+```{r, echo=FALSE}
+## combine changes in TotalC data
+overallC_Changes <- overallC10 %>%
+  full_join(overallC10.11, by = c("State", "TotalC_Changes", "Year"))
+
+overallC_Changes <- overallC_Changes %>%
+  full_join(overallC11.12, by = c("State", "TotalC_Changes", "Year"))
+
+overallC_Changes <- overallC_Changes %>%
+  full_join(overallC12.13, by = c("State", "TotalC_Changes", "Year"))
+
+overallC_Changes <- overallC_Changes %>%
+  full_join(overallC13.14, by = c("State", "TotalC_Changes", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform changes in TotalP data
+overallP10 <- overall %>%
+  select(State) %>%
+  mutate(TotalP10 = 0, Year = 2010) %>%
+  rename(TotalP_Changes = TotalP10)
+
+overallP10.11 <- overall %>%
+  select(State, TotalP10.11) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalP_Changes = TotalP10.11)
+
+overallP11.12 <- overall %>%
+  select(State, TotalP11.12) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalP_Changes = TotalP11.12)
+
+overallP12.13 <- overall %>%
+  select(State, TotalP12.13) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalP_Changes = TotalP12.13)
+
+overallP13.14 <- overall %>%
+  select(State, TotalP13.14) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalP_Changes = TotalP13.14)
+```
+
+```{r, echo=FALSE}
+## combine changes in TotalP data
+overallP_Changes <- overallP10 %>%
+  full_join(overallP10.11, by = c("State", "TotalP_Changes", "Year"))
+
+overallP_Changes <- overallP_Changes %>%
+  full_join(overallP11.12, by = c("State", "TotalP_Changes", "Year"))
+
+overallP_Changes <- overallP_Changes %>%
+  full_join(overallP12.13, by = c("State", "TotalP_Changes", "Year"))
+
+overallP_Changes <- overallP_Changes %>%
+  full_join(overallP13.14, by = c("State", "TotalP_Changes", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform changes in TotalE data
+overallE10 <- overall %>%
+  select(State) %>%
+  mutate(TotalE10 = 0, Year = 2010) %>%
+  rename(TotalE_Changes = TotalE10)
+
+overallE10.11 <- overall %>%
+  select(State, TotalE10.11) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalE_Changes = TotalE10.11)
+
+overallE11.12 <- overall %>%
+  select(State, TotalE11.12) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalE_Changes = TotalE11.12)
+
+overallE12.13 <- overall %>%
+  select(State, TotalE12.13) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalE_Changes = TotalE12.13)
+
+overallE13.14 <- overall %>%
+  select(State, TotalE13.14) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalE_Changes = TotalE13.14)
+```
+
+```{r, echo=FALSE}
+## combine changes in TotalE data
+overallE_Changes <- overallE10 %>%
+  full_join(overallE10.11, by = c("State", "TotalE_Changes", "Year"))
+
+overallE_Changes <- overallE_Changes %>%
+  full_join(overallE11.12, by = c("State", "TotalE_Changes", "Year"))
+
+overallE_Changes <- overallE_Changes %>%
+  full_join(overallE12.13, by = c("State", "TotalE_Changes", "Year"))
+
+overallE_Changes <- overallE_Changes %>%
+  full_join(overallE13.14, by = c("State", "TotalE_Changes", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform changes in TotalPrice data
+overallPrice10 <- overall %>%
+  select(State) %>%
+  mutate(TotalPrice10 = 0, Year = 2010) %>%
+  rename(TotalPrice_Changes = TotalPrice10)
+
+overallPrice10.11 <- overall %>%
+  select(State, TotalPrice10.11) %>%
+  mutate(Year = 2011) %>%
+  rename(TotalPrice_Changes = TotalPrice10.11)
+
+overallPrice11.12 <- overall %>%
+  select(State, TotalPrice11.12) %>%
+  mutate(Year = 2012) %>%
+  rename(TotalPrice_Changes = TotalPrice11.12)
+
+overallPrice12.13 <- overall %>%
+  select(State, TotalPrice12.13) %>%
+  mutate(Year = 2013) %>%
+  rename(TotalPrice_Changes = TotalPrice12.13)
+
+overallPrice13.14 <- overall %>%
+  select(State, TotalPrice13.14) %>%
+  mutate(Year = 2014) %>%
+  rename(TotalPrice_Changes = TotalPrice13.14)
+```
+
+```{r, echo=FALSE}
+## combine changes in totalPrice data
+overallPrice_Changes <- overallPrice10 %>%
+  full_join(overallPrice10.11, by = c("State", "TotalPrice_Changes", "Year"))
+
+overallPrice_Changes <- overallPrice_Changes %>%
+  full_join(overallPrice11.12, by = c("State", "TotalPrice_Changes", "Year"))
+
+overallPrice_Changes <- overallPrice_Changes %>%
+  full_join(overallPrice12.13, by = c("State", "TotalPrice_Changes", "Year"))
+
+overallPrice_Changes <- overallPrice_Changes %>%
+  full_join(overallPrice13.14, by = c("State", "TotalPrice_Changes", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform BiomassC data
+overallBiomassC2010 <- overall %>%
+  select(State, BiomassC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(BiomassC = BiomassC2010)
+
+overallBiomassC2011 <- overall %>%
+  select(State, BiomassC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(BiomassC = BiomassC2011)
+
+overallBiomassC2012 <- overall %>%
+  select(State, BiomassC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(BiomassC = BiomassC2012)
+
+overallBiomassC2013 <- overall %>%
+  select(State, BiomassC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(BiomassC = BiomassC2013)
+
+overallBiomassC2014 <- overall %>%
+  select(State, BiomassC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(BiomassC = BiomassC2014)
+```
+
+```{r, echo=FALSE}
+## combine BiomassC data
+overallBiomassC <- overallBiomassC2010 %>%
+  full_join(overallBiomassC2011, by = c("State", "BiomassC", "Year"))
+
+overallBiomassC <- overallBiomassC %>%
+  full_join(overallBiomassC2012, by = c("State", "BiomassC", "Year"))
+
+overallBiomassC <- overallBiomassC %>%
+  full_join(overallBiomassC2013, by = c("State", "BiomassC", "Year"))
+
+overallBiomassC <- overallBiomassC %>%
+  full_join(overallBiomassC2014, by = c("State", "BiomassC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform CoalC data
+overallCoalC2010 <- overall %>%
+  select(State, CoalC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(CoalC = CoalC2010)
+
+overallCoalC2011 <- overall %>%
+  select(State, CoalC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(CoalC = CoalC2011)
+
+overallCoalC2012 <- overall %>%
+  select(State, CoalC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(CoalC = CoalC2012)
+
+overallCoalC2013 <- overall %>%
+  select(State, CoalC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(CoalC = CoalC2013)
+
+overallCoalC2014 <- overall %>%
+  select(State, CoalC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(CoalC = CoalC2014)
+```
+
+```{r, echo=FALSE}
+## combine CoalC data
+overallCoalC <- overallCoalC2010 %>%
+  full_join(overallCoalC2011, by = c("State", "CoalC", "Year"))
+
+overallCoalC <- overallCoalC %>%
+  full_join(overallCoalC2012, by = c("State", "CoalC", "Year"))
+
+overallCoalC <- overallCoalC %>%
+  full_join(overallCoalC2013, by = c("State", "CoalC", "Year"))
+
+overallCoalC <- overallCoalC %>%
+  full_join(overallCoalC2014, by = c("State", "CoalC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform CoalP data
+overallCoalP2010 <- overall %>%
+  select(State, CoalP2010) %>%
+  mutate(Year = 2010) %>%
+  rename(CoalP = CoalP2010)
+
+overallCoalP2011 <- overall %>%
+  select(State, CoalP2011) %>%
+  mutate(Year = 2011) %>%
+  rename(CoalP = CoalP2011)
+
+overallCoalP2012 <- overall %>%
+  select(State, CoalP2012) %>%
+  mutate(Year = 2012) %>%
+  rename(CoalP = CoalP2012)
+
+overallCoalP2013 <- overall %>%
+  select(State, CoalP2013) %>%
+  mutate(Year = 2013) %>%
+  rename(CoalP = CoalP2013)
+
+overallCoalP2014 <- overall %>%
+  select(State, CoalP2014) %>%
+  mutate(Year = 2014) %>%
+  rename(CoalP = CoalP2014)
+```
+
+```{r, echo=FALSE}
+## combine CoalP data
+overallCoalP <- overallCoalP2010 %>%
+  full_join(overallCoalP2011, by = c("State", "CoalP", "Year"))
+
+overallCoalP <- overallCoalP %>%
+  full_join(overallCoalP2012, by = c("State", "CoalP", "Year"))
+
+overallCoalP <- overallCoalP %>%
+  full_join(overallCoalP2013, by = c("State", "CoalP", "Year"))
+
+overallCoalP <- overallCoalP %>%
+  full_join(overallCoalP2014, by = c("State", "CoalP", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform CoalE data
+overallCoalE2010 <- overall %>%
+  select(State, CoalE2010) %>%
+  mutate(Year = 2010) %>%
+  rename(CoalE = CoalE2010)
+
+overallCoalE2011 <- overall %>%
+  select(State, CoalE2011) %>%
+  mutate(Year = 2011) %>%
+  rename(CoalE = CoalE2011)
+
+overallCoalE2012 <- overall %>%
+  select(State, CoalE2012) %>%
+  mutate(Year = 2012) %>%
+  rename(CoalE = CoalE2012)
+
+overallCoalE2013 <- overall %>%
+  select(State, CoalE2013) %>%
+  mutate(Year = 2013) %>%
+  rename(CoalE = CoalE2013)
+
+overallCoalE2014 <- overall %>%
+  select(State, CoalE2014) %>%
+  mutate(Year = 2014) %>%
+  rename(CoalE = CoalE2014)
+```
+
+```{r, echo=FALSE}
+## combine CoalE data
+overallCoalE <- overallCoalE2010 %>%
+  full_join(overallCoalE2011, by = c("State", "CoalE", "Year"))
+
+overallCoalE <- overallCoalE %>%
+  full_join(overallCoalE2012, by = c("State", "CoalE", "Year"))
+
+overallCoalE <- overallCoalE %>%
+  full_join(overallCoalE2013, by = c("State", "CoalE", "Year"))
+
+overallCoalE <- overallCoalE %>%
+  full_join(overallCoalE2014, by = c("State", "CoalE", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform CoalPrice data
+overallCoalPrice2010 <- overall %>%
+  select(State, CoalPrice2010) %>%
+  mutate(Year = 2010) %>%
+  rename(CoalPrice = CoalPrice2010)
+
+overallCoalPrice2011 <- overall %>%
+  select(State, CoalPrice2011) %>%
+  mutate(Year = 2011) %>%
+  rename(CoalPrice = CoalPrice2011)
+
+overallCoalPrice2012 <- overall %>%
+  select(State, CoalPrice2012) %>%
+  mutate(Year = 2012) %>%
+  rename(CoalPrice = CoalPrice2012)
+
+overallCoalPrice2013 <- overall %>%
+  select(State, CoalPrice2013) %>%
+  mutate(Year = 2013) %>%
+  rename(CoalPrice = CoalPrice2013)
+
+overallCoalPrice2014 <- overall %>%
+  select(State, CoalPrice2014) %>%
+  mutate(Year = 2014) %>%
+  rename(CoalPrice = CoalPrice2014)
+```
+
+```{r, echo=FALSE}
+## combine CoalPrice data
+overallCoalPrice <- overallCoalPrice2010 %>%
+  full_join(overallCoalPrice2011, by = c("State", "CoalPrice", "Year"))
+
+overallCoalPrice <- overallCoalPrice %>%
+  full_join(overallCoalPrice2012, by = c("State", "CoalPrice", "Year"))
+
+overallCoalPrice <- overallCoalPrice %>%
+  full_join(overallCoalPrice2013, by = c("State", "CoalPrice", "Year"))
+
+overallCoalPrice <- overallCoalPrice %>%
+  full_join(overallCoalPrice2014, by = c("State", "CoalPrice", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform ElecC data
+overallElecC2010 <- overall %>%
+  select(State, ElecC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(ElecC = ElecC2010)
+
+overallElecC2011 <- overall %>%
+  select(State, ElecC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(ElecC = ElecC2011)
+
+overallElecC2012 <- overall %>%
+  select(State, ElecC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(ElecC = ElecC2012)
+
+overallElecC2013 <- overall %>%
+  select(State, ElecC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(ElecC = ElecC2013)
+
+overallElecC2014 <- overall %>%
+  select(State, ElecC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(ElecC = ElecC2014)
+```
+
+```{r, echo=FALSE}
+## combine ElecC data
+overallElecC <- overallElecC2010 %>%
+  full_join(overallElecC2011, by = c("State", "ElecC", "Year"))
+
+overallElecC <- overallElecC %>%
+  full_join(overallElecC2012, by = c("State", "ElecC", "Year"))
+
+overallElecC <- overallElecC %>%
+  full_join(overallElecC2013, by = c("State", "ElecC", "Year"))
+
+overallElecC <- overallElecC %>%
+  full_join(overallElecC2014, by = c("State", "ElecC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform ElecE data
+overallElecE2010 <- overall %>%
+  select(State, ElecE2010) %>%
+  mutate(Year = 2010) %>%
+  rename(ElecE = ElecE2010)
+
+overallElecE2011 <- overall %>%
+  select(State, ElecE2011) %>%
+  mutate(Year = 2011) %>%
+  rename(ElecE = ElecE2011)
+
+overallElecE2012 <- overall %>%
+  select(State, ElecE2012) %>%
+  mutate(Year = 2012) %>%
+  rename(ElecE = ElecE2012)
+
+overallElecE2013 <- overall %>%
+  select(State, ElecE2013) %>%
+  mutate(Year = 2013) %>%
+  rename(ElecE = ElecE2013)
+
+overallElecE2014 <- overall %>%
+  select(State, ElecE2014) %>%
+  mutate(Year = 2014) %>%
+  rename(ElecE = ElecE2014)
+```
+
+```{r, echo=FALSE}
+## combine ElecE data
+overallElecE <- overallElecE2010 %>%
+  full_join(overallElecE2011, by = c("State", "ElecE", "Year"))
+
+overallElecE <- overallElecE %>%
+  full_join(overallElecE2012, by = c("State", "ElecE", "Year"))
+
+overallElecE <- overallElecE %>%
+  full_join(overallElecE2013, by = c("State", "ElecE", "Year"))
+
+overallElecE <- overallElecE %>%
+  full_join(overallElecE2014, by = c("State", "ElecE", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform ElecPrice data
+overallElecPrice2010 <- overall %>%
+  select(State, ElecPrice2010) %>%
+  mutate(Year = 2010) %>%
+  rename(ElecPrice = ElecPrice2010)
+
+overallElecPrice2011 <- overall %>%
+  select(State, ElecPrice2011) %>%
+  mutate(Year = 2011) %>%
+  rename(ElecPrice = ElecPrice2011)
+
+overallElecPrice2012 <- overall %>%
+  select(State, ElecPrice2012) %>%
+  mutate(Year = 2012) %>%
+  rename(ElecPrice = ElecPrice2012)
+
+overallElecPrice2013 <- overall %>%
+  select(State, ElecPrice2013) %>%
+  mutate(Year = 2013) %>%
+  rename(ElecPrice = ElecPrice2013)
+
+overallElecPrice2014 <- overall %>%
+  select(State, ElecPrice2014) %>%
+  mutate(Year = 2014) %>%
+  rename(ElecPrice = ElecPrice2014)
+```
+
+```{r, echo=FALSE}
+## combine ElecPrice data
+overallElecPrice <- overallElecPrice2010 %>%
+  full_join(overallElecPrice2011, by = c("State", "ElecPrice", "Year"))
+
+overallElecPrice <- overallElecPrice %>%
+  full_join(overallElecPrice2012, by = c("State", "ElecPrice", "Year"))
+
+overallElecPrice <- overallElecPrice %>%
+  full_join(overallElecPrice2013, by = c("State", "ElecPrice", "Year"))
+
+overallElecPrice <- overallElecPrice %>%
+  full_join(overallElecPrice2014, by = c("State", "ElecPrice", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform FossFuelC data
+overallFossFuelC2010 <- overall %>%
+  select(State, FossFuelC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(FossFuelC = FossFuelC2010)
+
+overallFossFuelC2011 <- overall %>%
+  select(State, FossFuelC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(FossFuelC = FossFuelC2011)
+
+overallFossFuelC2012 <- overall %>%
+  select(State, FossFuelC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(FossFuelC = FossFuelC2012)
+
+overallFossFuelC2013 <- overall %>%
+  select(State, FossFuelC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(FossFuelC = FossFuelC2013)
+
+overallFossFuelC2014 <- overall %>%
+  select(State, FossFuelC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(FossFuelC = FossFuelC2014)
+```
+
+```{r, echo=FALSE}
+## combine FossFuelC data
+overallFossFuelC <- overallFossFuelC2010 %>%
+  full_join(overallFossFuelC2011, by = c("State", "FossFuelC", "Year"))
+
+overallFossFuelC <- overallFossFuelC %>%
+  full_join(overallFossFuelC2012, by = c("State", "FossFuelC", "Year"))
+
+overallFossFuelC <- overallFossFuelC %>%
+  full_join(overallFossFuelC2013, by = c("State", "FossFuelC", "Year"))
+
+overallFossFuelC <- overallFossFuelC %>%
+  full_join(overallFossFuelC2014, by = c("State", "FossFuelC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform GeoC data
+overallGeoC2010 <- overall %>%
+  select(State, GeoC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(GeoC = GeoC2010)
+
+overallGeoC2011 <- overall %>%
+  select(State, GeoC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(GeoC = GeoC2011)
+
+overallGeoC2012 <- overall %>%
+  select(State, GeoC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(GeoC = GeoC2012)
+
+overallGeoC2013 <- overall %>%
+  select(State, GeoC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(GeoC = GeoC2013)
+
+overallGeoC2014 <- overall %>%
+  select(State, GeoC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(GeoC = GeoC2014)
+```
+
+```{r, echo=FALSE}
+## combine GeoC data
+overallGeoC <- overallGeoC2010 %>%
+  full_join(overallGeoC2011, by = c("State", "GeoC", "Year"))
+
+overallGeoC <- overallGeoC %>%
+  full_join(overallGeoC2012, by = c("State", "GeoC", "Year"))
+
+overallGeoC <- overallGeoC %>%
+  full_join(overallGeoC2013, by = c("State", "GeoC", "Year"))
+
+overallGeoC <- overallGeoC %>%
+  full_join(overallGeoC2014, by = c("State", "GeoC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform GeoP data
+overallGeoP2010 <- overall %>%
+  select(State, GeoP2010) %>%
+  mutate(Year = 2010) %>%
+  rename(GeoP = GeoP2010)
+
+overallGeoP2011 <- overall %>%
+  select(State, GeoP2011) %>%
+  mutate(Year = 2011) %>%
+  rename(GeoP = GeoP2011)
+
+overallGeoP2012 <- overall %>%
+  select(State, GeoP2012) %>%
+  mutate(Year = 2012) %>%
+  rename(GeoP = GeoP2012)
+
+overallGeoP2013 <- overall %>%
+  select(State, GeoP2013) %>%
+  mutate(Year = 2013) %>%
+  rename(GeoP = GeoP2013)
+
+overallGeoP2014 <- overall %>%
+  select(State, GeoP2014) %>%
+  mutate(Year = 2014) %>%
+  rename(GeoP = GeoP2014)
+```
+
+```{r, echo=FALSE}
+## combine GeoC data
+overallGeoP <- overallGeoP2010 %>%
+  full_join(overallGeoP2011, by = c("State", "GeoP", "Year"))
+
+overallGeoP <- overallGeoP %>%
+  full_join(overallGeoP2012, by = c("State", "GeoP", "Year"))
+
+overallGeoP <- overallGeoP %>%
+  full_join(overallGeoP2013, by = c("State", "GeoP", "Year"))
+
+overallGeoP <- overallGeoP %>%
+  full_join(overallGeoP2014, by = c("State", "GeoP", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform HydroC data
+overallHydroC2010 <- overall %>%
+  select(State, HydroC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(HydroC = HydroC2010)
+
+overallHydroC2011 <- overall %>%
+  select(State, HydroC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(HydroC = HydroC2011)
+
+overallHydroC2012 <- overall %>%
+  select(State, HydroC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(HydroC = HydroC2012)
+
+overallHydroC2013 <- overall %>%
+  select(State, HydroC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(HydroC = HydroC2013)
+
+overallHydroC2014 <- overall %>%
+  select(State, HydroC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(HydroC = HydroC2014)
+```
+
+```{r, echo=FALSE}
+## combine HydroC data
+overallHydroC <- overallHydroC2010 %>%
+  full_join(overallHydroC2011, by = c("State", "HydroC", "Year"))
+
+overallHydroC <- overallHydroC %>%
+  full_join(overallHydroC2012, by = c("State", "HydroC", "Year"))
+
+overallHydroC <- overallHydroC %>%
+  full_join(overallHydroC2013, by = c("State", "HydroC", "Year"))
+
+overallHydroC <- overallHydroC %>%
+  full_join(overallHydroC2014, by = c("State", "HydroC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform HydroP data
+overallHydroP2010 <- overall %>%
+  select(State, HydroP2010) %>%
+  mutate(Year = 2010) %>%
+  rename(HydroP = HydroP2010)
+
+overallHydroP2011 <- overall %>%
+  select(State, HydroP2011) %>%
+  mutate(Year = 2011) %>%
+  rename(HydroP = HydroP2011)
+
+overallHydroP2012 <- overall %>%
+  select(State, HydroP2012) %>%
+  mutate(Year = 2012) %>%
+  rename(HydroP = HydroP2012)
+
+overallHydroP2013 <- overall %>%
+  select(State, HydroP2013) %>%
+  mutate(Year = 2013) %>%
+  rename(HydroP = HydroP2013)
+
+overallHydroP2014 <- overall %>%
+  select(State, HydroP2014) %>%
+  mutate(Year = 2014) %>%
+  rename(HydroP = HydroP2014)
+```
+
+```{r, echo=FALSE}
+## combine HydroP data
+overallHydroP <- overallHydroP2010 %>%
+  full_join(overallHydroP2011, by = c("State", "HydroP", "Year"))
+
+overallHydroP <- overallHydroP %>%
+  full_join(overallHydroP2012, by = c("State", "HydroP", "Year"))
+
+overallHydroP <- overallHydroP %>%
+  full_join(overallHydroP2013, by = c("State", "HydroP", "Year"))
+
+overallHydroP <- overallHydroP %>%
+  full_join(overallHydroP2014, by = c("State", "HydroP", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform NatGasC data
+overallNatGasC2010 <- overall %>%
+  select(State, NatGasC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(NatGasC = NatGasC2010)
+
+overallNatGasC2011 <- overall %>%
+  select(State, NatGasC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(NatGasC = NatGasC2011)
+
+overallNatGasC2012 <- overall %>%
+  select(State, NatGasC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(NatGasC = NatGasC2012)
+
+overallNatGasC2013 <- overall %>%
+  select(State, NatGasC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(NatGasC = NatGasC2013)
+
+overallNatGasC2014 <- overall %>%
+  select(State, NatGasC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(NatGasC = NatGasC2014)
+```
+
+```{r, echo=FALSE}
+## combine NatGasC data
+overallNatGasC <- overallNatGasC2010 %>%
+  full_join(overallNatGasC2011, by = c("State", "NatGasC", "Year"))
+
+overallNatGasC <- overallNatGasC %>%
+  full_join(overallNatGasC2012, by = c("State", "NatGasC", "Year"))
+
+overallNatGasC <- overallNatGasC %>%
+  full_join(overallNatGasC2013, by = c("State", "NatGasC", "Year"))
+
+overallNatGasC <- overallNatGasC %>%
+  full_join(overallNatGasC2014, by = c("State", "NatGasC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform NatGasE data
+overallNatGasE2010 <- overall %>%
+  select(State, NatGasE2010) %>%
+  mutate(Year = 2010) %>%
+  rename(NatGasE = NatGasE2010)
+
+overallNatGasE2011 <- overall %>%
+  select(State, NatGasE2011) %>%
+  mutate(Year = 2011) %>%
+  rename(NatGasE = NatGasE2011)
+
+overallNatGasE2012 <- overall %>%
+  select(State, NatGasE2012) %>%
+  mutate(Year = 2012) %>%
+  rename(NatGasE = NatGasE2012)
+
+overallNatGasE2013 <- overall %>%
+  select(State, NatGasE2013) %>%
+  mutate(Year = 2013) %>%
+  rename(NatGasE = NatGasE2013)
+
+overallNatGasE2014 <- overall %>%
+  select(State, NatGasE2014) %>%
+  mutate(Year = 2014) %>%
+  rename(NatGasE = NatGasE2014)
+```
+
+```{r, echo=FALSE}
+## combine NatGasE data
+overallNatGasE <- overallNatGasE2010 %>%
+  full_join(overallNatGasE2011, by = c("State", "NatGasE", "Year"))
+
+overallNatGasE <- overallNatGasE %>%
+  full_join(overallNatGasE2012, by = c("State", "NatGasE", "Year"))
+
+overallNatGasE <- overallNatGasE %>%
+  full_join(overallNatGasE2013, by = c("State", "NatGasE", "Year"))
+
+overallNatGasE <- overallNatGasE %>%
+  full_join(overallNatGasE2014, by = c("State", "NatGasE", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform NatGasPrice data
+overallNatGasPrice2010 <- overall %>%
+  select(State, NatGasPrice2010) %>%
+  mutate(Year = 2010) %>%
+  rename(NatGasPrice = NatGasPrice2010)
+
+overallNatGasPrice2011 <- overall %>%
+  select(State, NatGasPrice2011) %>%
+  mutate(Year = 2011) %>%
+  rename(NatGasPrice = NatGasPrice2011)
+
+overallNatGasPrice2012 <- overall %>%
+  select(State, NatGasPrice2012) %>%
+  mutate(Year = 2012) %>%
+  rename(NatGasPrice = NatGasPrice2012)
+
+overallNatGasPrice2013 <- overall %>%
+  select(State, NatGasPrice2013) %>%
+  mutate(Year = 2013) %>%
+  rename(NatGasPrice = NatGasPrice2013)
+
+overallNatGasPrice2014 <- overall %>%
+  select(State, NatGasPrice2014) %>%
+  mutate(Year = 2014) %>%
+  rename(NatGasPrice = NatGasPrice2014)
+```
+
+```{r, echo=FALSE}
+## combine NatGasPrice data
+overallNatGasPrice <- overallNatGasPrice2010 %>%
+  full_join(overallNatGasPrice2011, by = c("State", "NatGasPrice", "Year"))
+
+overallNatGasPrice <- overallNatGasPrice %>%
+  full_join(overallNatGasPrice2012, by = c("State", "NatGasPrice", "Year"))
+
+overallNatGasPrice <- overallNatGasPrice %>%
+  full_join(overallNatGasPrice2013, by = c("State", "NatGasPrice", "Year"))
+
+overallNatGasPrice <- overallNatGasPrice %>%
+  full_join(overallNatGasPrice2014, by = c("State", "NatGasPrice", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform LPGC data
+overallLPGC2010 <- overall %>%
+  select(State, LPGC2010) %>%
+  mutate(Year = 2010) %>%
+  rename(LPGC = LPGC2010)
+
+overallLPGC2011 <- overall %>%
+  select(State, LPGC2011) %>%
+  mutate(Year = 2011) %>%
+  rename(LPGC = LPGC2011)
+
+overallLPGC2012 <- overall %>%
+  select(State, LPGC2012) %>%
+  mutate(Year = 2012) %>%
+  rename(LPGC = LPGC2012)
+
+overallLPGC2013 <- overall %>%
+  select(State, LPGC2013) %>%
+  mutate(Year = 2013) %>%
+  rename(LPGC = LPGC2013)
+
+overallLPGC2014 <- overall %>%
+  select(State, LPGC2014) %>%
+  mutate(Year = 2014) %>%
+  rename(LPGC = LPGC2014)
+```
+
+```{r, echo=FALSE}
+## combine LPGC data
+overallLPGC <- overallLPGC2010 %>%
+  full_join(overallLPGC2011, by = c("State", "LPGC", "Year"))
+
+overallLPGC <- overallLPGC %>%
+  full_join(overallLPGC2012, by = c("State", "LPGC", "Year"))
+
+overallLPGC <- overallLPGC %>%
+  full_join(overallLPGC2013, by = c("State", "LPGC", "Year"))
+
+overallLPGC <- overallLPGC %>%
+  full_join(overallLPGC2014, by = c("State", "LPGC", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform LPGE data
+overallLPGE2010 <- overall %>%
+  select(State, LPGE2010) %>%
+  mutate(Year = 2010) %>%
+  rename(LPGE = LPGE2010)
+
+overallLPGE2011 <- overall %>%
+  select(State, LPGE2011) %>%
+  mutate(Year = 2011) %>%
+  rename(LPGE = LPGE2011)
+
+overallLPGE2012 <- overall %>%
+  select(State, LPGE2012) %>%
+  mutate(Year = 2012) %>%
+  rename(LPGE = LPGE2012)
+
+overallLPGE2013 <- overall %>%
+  select(State, LPGE2013) %>%
+  mutate(Year = 2013) %>%
+  rename(LPGE = LPGE2013)
+
+overallLPGE2014 <- overall %>%
+  select(State, LPGE2014) %>%
+  mutate(Year = 2014) %>%
+  rename(LPGE = LPGE2014)
+```
+
+```{r, echo=FALSE}
+## combine LPGE data
+overallLPGE <- overallLPGE2010 %>%
+  full_join(overallLPGE2011, by = c("State", "LPGE", "Year"))
+
+overallLPGE <- overallLPGE %>%
+  full_join(overallLPGE2012, by = c("State", "LPGE", "Year"))
+
+overallLPGE <- overallLPGE %>%
+  full_join(overallLPGE2013, by = c("State", "LPGE", "Year"))
+
+overallLPGE <- overallLPGE %>%
+  full_join(overallLPGE2014, by = c("State", "LPGE", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform LPGPrice data
+overallLPGPrice2010 <- overall %>%
+  select(State, LPGPrice2010) %>%
+  mutate(Year = 2010) %>%
+  rename(LPGPrice = LPGPrice2010)
+
+overallLPGPrice2011 <- overall %>%
+  select(State, LPGPrice2011) %>%
+  mutate(Year = 2011) %>%
+  rename(LPGPrice = LPGPrice2011)
+
+overallLPGPrice2012 <- overall %>%
+  select(State, LPGPrice2012) %>%
+  mutate(Year = 2012) %>%
+  rename(LPGPrice = LPGPrice2012)
+
+overallLPGPrice2013 <- overall %>%
+  select(State, LPGPrice2013) %>%
+  mutate(Year = 2013) %>%
+  rename(LPGPrice = LPGPrice2013)
+
+overallLPGPrice2014 <- overall %>%
+  select(State, LPGPrice2014) %>%
+  mutate(Year = 2014) %>%
+  rename(LPGPrice = LPGPrice2014)
+```
+
+```{r, echo=FALSE}
+## combine LPGPrice data
+overallLPGPrice <- overallLPGPrice2010 %>%
+  full_join(overallLPGPrice2011, by = c("State", "LPGPrice", "Year"))
+
+overallLPGPrice <- overallLPGPrice %>%
+  full_join(overallLPGPrice2012, by = c("State", "LPGPrice", "Year"))
+
+overallLPGPrice <- overallLPGPrice %>%
+  full_join(overallLPGPrice2013, by = c("State", "LPGPrice", "Year"))
+
+overallLPGPrice <- overallLPGPrice %>%
+  full_join(overallLPGPrice2014, by = c("State", "LPGPrice", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform GDP data
+overallGDP2010 <- overall %>%
+  select(State, GDP2010) %>%
+  mutate(Year = 2010) %>%
+  rename(GDP = GDP2010)
+
+overallGDP2011 <- overall %>%
+  select(State, GDP2011) %>%
+  mutate(Year = 2011) %>%
+  rename(GDP = GDP2011)
+
+overallGDP2012 <- overall %>%
+  select(State, GDP2012) %>%
+  mutate(Year = 2012) %>%
+  rename(GDP = GDP2012)
+
+overallGDP2013 <- overall %>%
+  select(State, GDP2013) %>%
+  mutate(Year = 2013) %>%
+  rename(GDP = GDP2013)
+
+overallGDP2014 <- overall %>%
+  select(State, GDP2014) %>%
+  mutate(Year = 2014) %>%
+  rename(GDP = GDP2014)
+```
+
+```{r, echo=FALSE}
+## combine GDP data
+overallGDP <- overallGDP2010 %>%
+  full_join(overallGDP2011, by = c("State", "GDP", "Year"))
+
+overallGDP <- overallGDP %>%
+  full_join(overallGDP2012, by = c("State", "GDP", "Year"))
+
+overallGDP <- overallGDP %>%
+  full_join(overallGDP2013, by = c("State", "GDP", "Year"))
+
+overallGDP <- overallGDP %>%
+  full_join(overallGDP2014, by = c("State", "GDP", "Year"))
+```
+
+
+```{r, echo=FALSE}
+## transform Population data
+overallPopulation2010 <- overall %>%
+  select(State, POPESTIMATE2010) %>%
+  mutate(Year = 2010) %>%
+  rename(Population = POPESTIMATE2010)
+
+overallPopulation2011 <- overall %>%
+  select(State, POPESTIMATE2011) %>%
+  mutate(Year = 2011) %>%
+  rename(Population = POPESTIMATE2011)
+
+overallPopulation2012 <- overall %>%
+  select(State, POPESTIMATE2012) %>%
+  mutate(Year = 2012) %>%
+  rename(Population = POPESTIMATE2012)
+
+overallPopulation2013 <- overall %>%
+  select(State, POPESTIMATE2013) %>%
+  mutate(Year = 2013) %>%
+  rename(Population = POPESTIMATE2013)
+
+overallPopulation2014 <- overall %>%
+  select(State, POPESTIMATE2014) %>%
+  mutate(Year = 2014) %>%
+  rename(Population = POPESTIMATE2014)
+```
+
+```{r, echo=FALSE}
+## combine Population data
+overallPopulation <- overallPopulation2010 %>%
+  full_join(overallPopulation2011, by = c("State", "Population", "Year"))
+
+overallPopulation <- overallPopulation %>%
+  full_join(overallPopulation2012, by = c("State", "Population", "Year"))
+
+overallPopulation <- overallPopulation %>%
+  full_join(overallPopulation2013, by = c("State", "Population", "Year"))
+
+overallPopulation <- overallPopulation %>%
+  full_join(overallPopulation2014, by = c("State", "Population", "Year"))
+```
+
+```{r, echo=FALSE}
+# combine all data by States
+alldata <- overallC %>%
+  left_join(overallP, c("State", "Year")) %>%
+  left_join(overallE, c("State", "Year")) %>%
+  left_join(overallPrice, c("State", "Year")) %>%
+  left_join(overallC_Changes, c("State", "Year")) %>%
+  left_join(overallP_Changes, c("State", "Year")) %>%
+  left_join(overallE_Changes, c("State", "Year")) %>%
+  left_join(overallPrice_Changes, c("State", "Year")) %>%
+  left_join(overallBiomassC, c("State", "Year")) %>%
+  left_join(overallCoalC, c("State", "Year")) %>%
+  left_join(overallCoalP, c("State", "Year")) %>%
+  left_join(overallCoalE, c("State", "Year")) %>%
+  left_join(overallCoalPrice, c("State", "Year")) %>%
+  left_join(overallElecC, c("State", "Year")) %>%
+  left_join(overallElecE, c("State", "Year")) %>%
+  left_join(overallElecPrice, c("State", "Year")) %>%
+  left_join(overallFossFuelC, c("State", "Year")) %>%
+  left_join(overallGeoC, c("State", "Year")) %>%
+  left_join(overallGeoP, c("State", "Year")) %>%
+  left_join(overallHydroC, c("State", "Year")) %>%
+  left_join(overallHydroP, c("State", "Year")) %>%
+  left_join(overallNatGasC, c("State", "Year")) %>%
+  left_join(overallNatGasE, c("State", "Year")) %>%
+  left_join(overallNatGasPrice, c("State", "Year")) %>%
+  left_join(overallLPGC, c("State", "Year")) %>%
+  left_join(overallLPGE, c("State", "Year")) %>%
+  left_join(overallLPGPrice, c("State", "Year")) %>%
+  left_join(overallGDP, c("State", "Year")) %>%
+  left_join(overallPopulation, c("State", "Year")) %>%
+  select(-Year,Year)
+```
+
+```{r}
+write.csv(alldata,'overall_data.csv')
+```
+
+
+```{r}
+## load data
+allStatedata <- read.csv('state_data.csv')
+alldata <- read.csv('overall_data.csv')
+
+
+Biomass <- alldata %>%
+  select(BiomassC,Year) %>%
+  mutate(type = 'Biomass') %>%
+  rename(TotalC = BiomassC)
+
+Coal <- alldata %>%
+  select(CoalC,Year) %>%
+  mutate(type = 'Coal') %>%
+  rename(TotalC = CoalC)
+
+Elec <- alldata %>%
+  select(ElecC,Year) %>%
+  mutate(type = 'Elec') %>%
+  rename(TotalC = ElecC)
+
+FossFuel <- alldata %>%
+  select(FossFuelC,Year) %>%
+  mutate(type = 'FossFuel') %>%
+  rename(TotalC = FossFuelC)
+
+Geo <- alldata %>%
+  select(GeoC,Year) %>%
+  mutate(type = 'Geo') %>%
+  rename(TotalC = GeoC)
+
+Hydro <- alldata %>%
+  select(HydroC,Year) %>%
+  mutate(type = 'Hydro') %>%
+  rename(TotalC = HydroC)
+
+NatGas <- alldata %>%
+  select(NatGasC,Year) %>%
+  mutate(type = 'NatGas') %>%
+  rename(TotalC = NatGasC)
+
+LPG <- alldata %>%
+  select(LPGC,Year) %>%
+  mutate(type = 'LPG') %>%
+  rename(TotalC = LPGC)
+
+TotalC_Types <- Biomass %>%
+  full_join(Coal, by = c("TotalC", "Year", "type")) %>%
+  full_join(Elec, by = c("TotalC", "Year", "type")) %>%
+  full_join(FossFuel, by = c("TotalC", "Year", "type")) %>%
+  full_join(Geo, by = c("TotalC", "Year", "type")) %>%
+  full_join(Hydro, by = c("TotalC", "Year", "type")) %>%
+  full_join(NatGas, by = c("TotalC", "Year", "type")) %>%
+  full_join(LPG, by = c("TotalC", "Year", "type"))
+
+
+write.csv(TotalC_Types,'TotalC_Types.csv')
+```
+
+
+```{r}
+## load data
+Biomass1 <- allStatedata %>%
+  select(State,BiomassC,Year) %>%
+  group_by(State) %>%
+  summarise(average = sum(BiomassC)/5) %>%
+  mutate(type = 'Biomass') %>%
+  rename(AverageC = average)
+
+Coal1 <- allStatedata %>%
+  select(State,CoalC,Year) %>%
+  group_by(State) %>%
+  summarise(average = sum(CoalC)/5) %>%
+  mutate(type = 'Coal') %>%
+  rename(AverageC = average)
+
+Elec1 <- allStatedata %>%
+  select(State,ElecC,Year) %>%
+  group_by(State) %>%
+  summarise(average = sum(ElecC)/5) %>%
+  mutate(type = 'Elec') %>%
+  rename(AverageC = average)
+
+FossFuel1 <- allStatedata %>%
+  select(State,FossFuelC,Year) %>%
+  group_by(State) %>%
+  summarise(average = sum(FossFuelC)/5) %>%
+  mutate(type = 'FossFuel') %>%
+  rename(AverageC = average)
+
+Geo1 <- allStatedata %>%
+  select(State,GeoC,Year) %>%
+  group_by(State) %>%
+  summarise(average = sum(GeoC)/5) %>%
+  mutate(type = 'Geo') %>%
+  rename(AverageC = average)
+
+Hydro1 <- allStatedata %>%
+  select(State,HydroC,Year) %>%
+  group_by(State) %>%
+  summarise(average = sum(HydroC)/5) %>%
+  mutate(type = 'Hydro') %>%
+  rename(AverageC = average)
+
+NatGas1 <- allStatedata %>%
+  select(State,NatGasC,Year) %>%
+  group_by(State) %>%
+  summarise(average = sum(NatGasC)/5) %>%
+  mutate(type = 'NatGas') %>%
+  rename(AverageC = average)
+
+LPG1 <- allStatedata %>%
+  select(State,LPGC,Year) %>%
+  group_by(State) %>%
+  summarise(average = sum(LPGC)/5) %>%
+  mutate(type = 'LPG') %>%
+  rename(AverageC = average)
+
+TotalC_Types_States <- Biomass1 %>%
+  full_join(Coal1, by = c("State","AverageC", "type")) %>%
+  full_join(Elec1, by = c("State","AverageC", "type")) %>%
+  full_join(FossFuel1, by = c("State","AverageC", "type")) %>%
+  full_join(Geo1, by = c("State","AverageC", "type")) %>%
+  full_join(Hydro1, by = c("State","AverageC", "type")) %>%
+  full_join(NatGas1, by = c("State","AverageC", "type")) %>%
+  full_join(LPG1, by = c("State","AverageC", "type")) 
+
+
+write.csv(TotalC_Types_States,'TotalC_Types_States.csv')
+```
+
+```{r}
+TotalC_Types_States %>%
+  filter(type %in% c('Biomass','Coal','Elec','FossFuel','Geo','Hydro','NatGas','LPG')) %>%
+  ggplot(aes(x=State,y=AverageC,fill=type)) + geom_col() +
+  labs(title = 'Average Energy Consumption in Different Types',
+       subtitle = 'For Each State',
+       x = 'State',
+       y = 'Average Energy Consumption') + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
