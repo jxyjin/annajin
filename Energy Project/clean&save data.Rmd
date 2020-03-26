@@ -1,6 +1,6 @@
 ---
 title: "Clean&Save Data"
-author: "Xinyue Jin"
+author: "Anna Jin"
 date: "11/26/2019"
 output: html_document
 ---
